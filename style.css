@@ -25,7 +25,7 @@ header {
     text-align: center;
     padding: 50px 20px 80px; 
     position: relative;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: auto;
     overflow: hidden; 
 }
@@ -51,15 +51,15 @@ header p {
 /* Lingkaran Avatar di Header */
 .header-circles-container {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 1;
+    left: 1;
     width: 100%;
     height: 100%;
 }
 
 .avatar-circle {
-    width: 140px;
-    height: 140px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     position: absolute;
     border: 3px solid var(--border-color); 
@@ -67,10 +67,10 @@ header p {
 }
 
 /* Posisi Lingkaran Avatar */
-.top-left { top: 30px; left: 60px; }
-.bottom-left { top: 120px; left: 180px; } 
-.top-right { top: 30px; right: 60px; }
-.bottom-right { top: 120px; right: 180px; }
+.top-left { top: -20px; left: 80px; }
+.bottom-left { top: 70px; left: 200px; }
+.top-right { top: -20px; right: 80px; }
+.bottom-right { top: 70px; right: 200px; }
 
 
 /* --- Body Styling --- */
@@ -91,8 +91,8 @@ header p {
 }
 
 #avatar-frame {
-    width: 350px; 
-    height: 350px;
+    width: 450px; 
+    height: 450px;
     background-color: var(--background-white); 
     border: 2px solid var(--border-color); 
     position: relative;
