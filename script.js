@@ -18,9 +18,17 @@ document.querySelectorAll(".slider-items").forEach(group => {
 });
 
 // Ubah background avatar
-document.getElementById("bgColorPicker").addEventListener("input", e => {
-    document.getElementById("avatar-background").style.backgroundColor = e.target.value;
+document.addEventListener("DOMContentLoaded", () => {
+    const colorPicker = document.getElementById('bg-color-picker');
+    const avatarBackground = document.getElementById('avatar-background');
+
+    if (colorPicker && avatarBackground) {
+        colorPicker.addEventListener('input', () => {
+            avatarBackground.style.backgroundColor = colorPicker.value;
+        });
+    }
 });
+
 
 // Download PNG avatar
 document.getElementById("download-btn").addEventListener("click", () => {

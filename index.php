@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 // Default di frame
 $defaults = [
@@ -20,21 +21,29 @@ $parts_config = [
 ];
 
 // baca pilihan saat ini dari URL 
-$current = [
-    'badan'   => $defaults['badan'],
-    'baju'    => $_GET['baju'] ?? $defaults['baju'],
-    'mulut'   => $_GET['mulut'] ?? $defaults['mulut'],
-    'mata'    => $_GET['mata'] ?? $defaults['mata'],
-    'kepala'  => $_GET['kepala'] ?? $defaults['kepala'],
-    'bgColor' => $_GET['bgColor'] ?? $defaults['bgColor']
-];
+$current = $_SESSION['avatar'] ?? $defaults;
+
+if(!empty($_GET)) {
+    unset($_SESSION['avatar']['bgColor']);
+    unset($current['bgColor']);
+
+    foreach ($defaults as $key => $value) {
+        if ($key !== 'bgColor' && isset($_GET[$key])) {
+            $current[$key] = $_GET[$key];
+        }
+    }
+    $_SESSION['avatar'] = $current;
+
+    header("Location: index.php");
+    exit;
+}
+
+$_SESSION['avatar'] = $current;
 
 // mastiin pilihan
 foreach ($parts_config as $category => $max) {
     $current[$category] = min(max(1, (int)($current[$category])), $max);
 }
-$current['bgColor'] = htmlspecialchars($current['bgColor']);
-
 
 // tombol slider
 function generate_slider_items($category, $max, $current_parts) {
@@ -90,10 +99,10 @@ function generate_slider_items($category, $max, $current_parts) {
             
             <div id="avatar-frame">
                 <div id="avatar-layers">
-                    <div id="avatar-background" style="background-color: <?php echo $current['bgColor']; ?>;"></div> 
+                    <div id="avatar-background"></div> 
                     
                     <img id="badan-part" class="avatar-layer" style="z-index: 10;" 
-                        src="assets/badan/Badan.png" alt="Badan">
+                        src="assets/badan/Badan 2.png" alt="Badan">
                     
                     <img id="baju-part" class="avatar-layer" style="z-index: 15;" 
                         src="assets/baju/Baju <?php echo $current['baju'];?>.png" alt="Baju">
@@ -114,18 +123,9 @@ function generate_slider_items($category, $max, $current_parts) {
             
             <div class="color-picker-section">
                 <span class="color-text">Anda dapat mengganti warna latar belakang:</span>
-                <form method="GET" action="index.php" id="color-form">
-                    <?php 
-                    foreach ($current as $key => $value) {
-                        if ($key !== 'bgColor') {
-                            echo "<input type='hidden' name='{$key}' value='{$value}'>";
-                        }
-                    }
-                    ?>
-                    <input type="color" name="bgColor" id="bg-color-picker" 
-                           value="<?php echo $current['bgColor']; ?>" 
-                           onchange="document.getElementById('color-form').submit();">
-                </form>
+                
+                <input type="color" id="bg-color-picker" 
+                    value="#ffffff">
             </div>
         </div>
 
@@ -155,7 +155,7 @@ function generate_slider_items($category, $max, $current_parts) {
                 </div>
             </div></div>
             
-            <button id="download-btn"; background-color: #f0f0f0;">
+            <button id="download-btn"; background-color: #f0f0f0;>
                 Download avatar (.png)
             </button>
         </div>
@@ -167,5 +167,6 @@ function generate_slider_items($category, $max, $current_parts) {
         </div>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
