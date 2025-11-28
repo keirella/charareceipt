@@ -93,7 +93,7 @@ function generate_slider_items($category, $max, $current_parts) {
                     <div id="avatar-background" style="background-color: <?php echo $current['bgColor']; ?>;"></div> 
                     
                     <img id="badan-part" class="avatar-layer" style="z-index: 10;" 
-                        src="assets/badan/Badan.png" alt="Badan">
+                        src="assets/badan/Badan 2.png" alt="Badan">
                     
                     <img id="baju-part" class="avatar-layer" style="z-index: 15;" 
                         src="assets/baju/Baju <?php echo $current['baju'];?>.png" alt="Baju">
@@ -155,7 +155,7 @@ function generate_slider_items($category, $max, $current_parts) {
                 </div>
             </div></div>
             
-            <button id="download-btn"; background-color: #f0f0f0;">
+            <button id="download-btn"; background-color: #f0f0f0;>
                 Download avatar (.png)
             </button>
         </div>
