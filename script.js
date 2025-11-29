@@ -1,5 +1,3 @@
-// script.js
-
 // untuk memperbarui semua link slider 
 function updateSliderLinks() {
     const colorPicker = document.getElementById('bg-color-picker');
