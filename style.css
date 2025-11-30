@@ -71,11 +71,10 @@ header p {
     transition: all 0.3s ease-out;
 }
 
-.top-left { top: 50px; left: 30px; } 
+.top-left { top: 50px; left: 50px; } 
 .bottom-left { top: 150px; left: 200px; } 
-.top-right { top: 50px; right: 30px; }
+.top-right { top: 50px; right: 50px; }
 .bottom-right { top: 150px; right: 200px; }
-
 
 /* --- Body Styling --- */
 .avatar-creator {
@@ -275,15 +274,15 @@ footer {
 @media (max-width: 1024px) {
     
     .avatar-circle {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
     }
 
     /* Sesuaikan posisi di tablet */
-    .top-left { top: 30px; left: 30px; }
-    .bottom-left { top: 120px; left: 100px; }
-    .top-right { top: 30px; right: 30px; }
-    .bottom-right { top: 120px; right: 100px; }
+    .top-left { top: 20px; left: 20px; }
+    .bottom-left { top: 100px; left: 120px; }
+    .top-right { top: 20px; right: 20px; }
+    .bottom-right { top: 100px; right: 120px; }
     
     header h1 {
         font-size: 3.5em;
