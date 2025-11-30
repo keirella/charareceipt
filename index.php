@@ -20,54 +20,31 @@ $parts_config = [
     'kepala' => 6
 ];
 
-// baca pilihan saat ini dari session atau default
+// baca pilihan dari session atau default
 $current = $_SESSION['avatar'] ?? $defaults;
-
-if(!empty($_GET)) {
-    foreach ($defaults as $key => $value) {
-        if (isset($_GET[$key])) {
-            $current[$key] = $_GET[$key];
-        }
-    }
-    
-    if (isset($_GET['bgColor'])) {
-         $current['bgColor'] = $_GET['bgColor'];
-    } else if (!isset($_GET['bgColor']) && isset($_SESSION['avatar']['bgColor'])) {
-         $current['bgColor'] = $_SESSION['avatar']['bgColor'];
-    }
-
-    $_SESSION['avatar'] = $current;
-
-    header("Location: index.php");
-    exit;
-}
-
-$_SESSION['avatar'] = $defaults;
+$_SESSION['avatar'] = $current;
 
 // mastiin pilihan
 foreach ($parts_config as $category => $max) {
     $current[$category] = min(max(1, (int)($current[$category])), $max);
 }
 
-// tombol slider
+// tombol slider diubah dari <a> menjadi <div>
 function generate_slider_items($category, $max, $current_parts) {
     $output = '';
     
     $CategoryName = ucfirst($category);
     
     for ($i = 1; $i <= $max; $i++) {
-        $query_parts = $current_parts;
-        $query_parts[$category] = $i;
         
-        $query_string = http_build_query($query_parts);
         $active_class = ($current_parts[$category] == $i) ? 'active' : '';
         
         $fileName = "{$CategoryName} {$i}.png";
         $filePath = "assets/{$category}/" . rawurlencode($fileName);
 
-        $output .= "<a href='index.php?{$query_string}' class='slider-item {$active_class}'>";
+        $output .= "<div class='slider-item {$active_class}' data-category='{$category}' data-value='{$i}'>";
         $output .= "<img src='{$filePath}' alt='{$CategoryName} {$i}'>";
-        $output .= "</a>";
+        $output .= "</div>";
     }
     return $output;
 }
@@ -103,10 +80,10 @@ function generate_slider_items($category, $max, $current_parts) {
             
             <div id="avatar-frame">
                 <div id="avatar-layers">
-                    <div id="avatar-background"></div> 
+                    <div id="avatar-background" style="background-color: <?php echo $current['bgColor'] ?? '#ffffff'; ?>"></div> 
                     
                     <img id="badan-part" class="avatar-layer" style="z-index: 10;" 
-                        src="assets/badan/Badan 2.png" alt="Badan">
+                        src="assets/badan/Badan.png" alt="Badan">
                     
                     <img id="baju-part" class="avatar-layer" style="z-index: 15;" 
                         src="assets/baju/Baju <?php echo $current['baju'];?>.png" alt="Baju">
