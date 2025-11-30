@@ -70,7 +70,8 @@ function generate_slider_items($category, $max, $current_parts) {
 
         <div class="header-content">
             <h1>CHARARECEIPT</h1>
-            <p>Temukan jati diri dan pilih karakter yang paling mencerminkan gayamu!</p>
+            <p>Temukan jati diri dan pilih karakter</p>
+            <p>yang paling mencerminkan gayamu!</p>
         </div>
     </header>
 
