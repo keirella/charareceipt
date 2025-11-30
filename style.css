@@ -79,7 +79,7 @@ header p {
 .avatar-creator {
     display: flex;
     justify-content: center;
-    gap: 150px;
+    gap: 150px; 
     padding: 50px 20px;
     max-width: 1100px;
     margin: 0 auto;
@@ -90,11 +90,12 @@ header p {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-shrink: 0; 
 }
 
 #avatar-frame {
-    width: 500px; 
-    height: 500px;
+    width: 452px; 
+    height: 452px;
     background-color: var(--background-white); 
     border: 2px solid var(--border-color); 
     position: relative;
@@ -248,4 +249,92 @@ footer {
     font-weight: 400;
     color: var(--text-color);
     padding: 0px;
+}
+
+/* --- Tablet --- */
+@media (max-width: 1024px) {
+    
+    .avatar-circle {
+        width: 100px;
+        height: 100px;
+    }
+    .top-left { top: -10px; left: 10px; }
+    .bottom-left { top: 70px; left: 150px; }
+    .top-right { top: -10px; right: 10px; }
+    .bottom-right { top: 70px; right: 150px; }
+    
+    header h1 {
+        font-size: 3.5em;
+    }
+
+    /* Pindahkan kontrol ke bawah frame */
+    .avatar-creator {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px; 
+        padding: 40px 20px;
+    }
+    
+    #avatar-frame {
+        width: 400px;
+        height: 400px; 
+    }
+    
+    .customization-controls {
+        width: 400px; 
+    }
+}
+
+/* --- Mobile --- */
+@media (max-width: 600px) {
+    
+    header {
+        padding-top: 30px; 
+        padding-bottom: 50px; 
+    }
+
+    .avatar-circle {
+        display: none;
+    }
+    
+    .header-content {
+        margin-top: 30px; 
+    }
+
+    header h1 {
+        font-size: 2.5em;
+    }
+
+    header p {
+        font-size: 1em;
+    }
+
+    .avatar-creator {
+        padding: 20px 15px;
+    }
+
+    #avatar-frame {
+        width: 300px;
+        height: 300px; 
+    }
+    
+    .customization-controls {
+        width: 100%; 
+        max-width: 300px; 
+    }
+    
+    /* Kecilkan tombol slider */
+    .slider-item {
+        width: 60px;
+        height: 60px;
+    }
+    
+    /* Footer */
+    footer {
+        padding: 30px 15px;
+        margin-top: 30px;
+    }
+    .footer-content {
+        font-size: 0.9em;
+    }
 }
