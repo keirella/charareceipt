@@ -60,22 +60,6 @@ header p {
     pointer-events: none; 
 }
 
-.avatar-circle {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    position: absolute;
-    border: 2px solid var(--border-color); 
-    z-index: 1;
-    object-fit: cover; 
-    transition: all 0.3s ease-out;
-}
-
-.top-left { top: 50px; left: 50px; } 
-.bottom-left { top: 150px; left: 200px; } 
-.top-right { top: 50px; right: 50px; }
-.bottom-right { top: 150px; right: 200px; }
-
 /* --- Body Styling --- */
 .avatar-creator {
     display: flex;
@@ -273,17 +257,6 @@ footer {
 /* --- Tablet --- */
 @media (max-width: 1024px) {
     
-    .avatar-circle {
-        width: 80px;
-        height: 80px;
-    }
-
-    /* Sesuaikan posisi di tablet */
-    .top-left { top: 20px; left: 20px; }
-    .bottom-left { top: 100px; left: 120px; }
-    .top-right { top: 20px; right: 20px; }
-    .bottom-right { top: 100px; right: 120px; }
-    
     header h1 {
         font-size: 3.5em;
     }
@@ -316,10 +289,6 @@ footer {
     header {
         padding-top: 30px; 
         padding-bottom: 50px; 
-    }
-
-    .avatar-circle {
-        display: none;
     }
     
     .header-content {
