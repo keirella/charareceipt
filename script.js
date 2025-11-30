@@ -1,48 +1,67 @@
-// untuk memperbarui semua link slider 
-function updateSliderLinks() {
-    const colorPicker = document.getElementById('bg-color-picker');
-    if (!colorPicker) return;
+// pembaruan bagian avatar (untuk mengatasi reload/scroll-up)
+function updateSession(part, value) {
+    fetch('update_session.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ part: part, value: value })
+    })
+    .then(response => response.json())
+    .catch(error => console.error('Error updating session:', error));
+}
 
-    const bgColor = colorPicker.value.substring(1); 
-    const sliderLinks = document.querySelectorAll('.slider-item');
-    
-    sliderLinks.forEach(link => {
-        let href = link.getAttribute('href');
-        
-        href = href.replace(/&?bgColor=[^&]*/, '');
-        
-        if (href.includes('?')) {
-            link.href = href + `&bgColor=%23${bgColor}`; 
-        } else {
-            link.href = href + `?bgColor=%23${bgColor}`;
-        }
-    });
+// pembaruan warna latar belakang (untuk mengatasi reload/scroll-up)
+function updateBgColorSession(color) {
+    fetch('update_session.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ bgColor: color })
+    })
+    .then(response => response.json())
+    .catch(error => console.error('Error updating background color session:', error));
 }
 
 
-document.querySelectorAll(".slider-items").forEach(group => {
-    const category = group.getAttribute("data-category"); 
-    const layer = document.getElementById(category + "-part"); 
-});
-
-// ubah background avatar dan update link
 document.addEventListener("DOMContentLoaded", () => {
     const colorPicker = document.getElementById('bg-color-picker');
     const avatarBackground = document.getElementById('avatar-background');
-    
-    updateSliderLinks(); 
 
     if (colorPicker && avatarBackground) {
         
-        colorPicker.addEventListener('input', () => {
-            avatarBackground.style.backgroundColor = colorPicker.value;
-            updateSliderLinks(); 
-        });
-        
+        // atur warna awal dari PHP
         avatarBackground.style.backgroundColor = colorPicker.value;
-    }
-});
 
+        colorPicker.addEventListener('input', (event) => {
+            const newColor = event.target.value;
+            avatarBackground.style.backgroundColor = newColor;
+            updateBgColorSession(newColor); 
+        });
+    }
+
+    // klik slider
+    document.querySelectorAll('.slider-item').forEach(item => {
+        item.addEventListener('click', function(event) {
+            
+            const category = this.getAttribute('data-category');
+            const value = this.getAttribute('data-value');
+            
+            const layerImg = document.getElementById(category + "-part");
+            const categoryNameCapitalized = category.charAt(0).toUpperCase() + category.slice(1);
+            
+            layerImg.src = `assets/${category}/${categoryNameCapitalized} ${value}.png`;
+
+            const container = this.closest('.slider-items');
+            container.querySelector('.slider-item.active')?.classList.remove('active');
+            this.classList.add('active');
+
+            updateSession(category, value);
+        });
+    });
+
+});
 
 // download PNG avatar 
 document.getElementById("download-btn").addEventListener("click", () => {
@@ -51,49 +70,46 @@ document.getElementById("download-btn").addEventListener("click", () => {
     const avatarWidth = avatarFrame.offsetWidth;
     const avatarHeight = avatarFrame.offsetHeight;
     
-    // 1. Render Avatar yang sudah dibuat ke kanvas
+    // render Avatar yang sudah dibuat ke kanvas
     html2canvas(avatarFrame, {
         width: avatarWidth,
         height: avatarHeight,
         scale: 2
     }).then(avatarCanvas => {
         
-        // 2. Load gambar FRAME/STRUK
+        // load gambar FRAME/STRUK
         const frameImage = new Image();
         frameImage.src = "assets/Frame.png"; 
         
         frameImage.onload = () => {
             
-            // Dimensi Penuh dari Frame.png
-            const finalWidth = frameImage.width;
-            const finalHeight = frameImage.height;
+            const finalWidth = 580; 
+            const finalHeight = 1300; 
             
             const finalCanvas = document.createElement('canvas');
             finalCanvas.width = finalWidth;
             finalCanvas.height = finalHeight;
             const ctx = finalCanvas.getContext('2d');
             
-            // 3. Gambar FRAME/STRUK (Frame.png)
+            const avatarTargetWidth = 452; 
+            const avatarTargetHeight = 592; 
+            
+            const frameX = (finalWidth - avatarTargetWidth) / 2; 
+            const frameY = 290; 
+            
+            ctx.drawImage(avatarCanvas, frameX, frameY, avatarTargetWidth, avatarTargetHeight);
+            
             ctx.drawImage(frameImage, 0, 0, finalWidth, finalHeight);
             
-            // 4. Hitung posisi dan ukuran AVATAR
-            const frameX = finalWidth * 0.235; 
-            const frameY = finalHeight * 0.265; 
-            const frameSize = finalWidth * 0.53; 
-
-            // 5. Gambar AVATAR di atas Frame
-            ctx.drawImage(avatarCanvas, frameX, frameY, frameSize, frameSize);
-            
-            // 6. Download Kanvas Akhir
+            // download Kanvas Akhir
             const link = document.createElement("a");
-            link.download = "chararecipt_result.png";
-            link.href = finalCanvas.toDataURL("image/png");
+            link.download = "chararecipt.png"; 
+            link.href = finalCanvas.toDataURL("image/png"); 
             link.click();
-            
-            // 7. Reset sesi setelah download
-            setTimeout(() => {
-                window.location.href = "index.php?reset_session=1";
-            }, 100); 
+
+             setTimeout(() => {
+                 window.location.href = "index.php";
+             }, 100);
         };
         
         frameImage.onerror = () => {
